@@ -12,6 +12,7 @@ CFLAGS = -Wall -Wextra -std=gnu17
 SRC = main_test/main.c \
 	new.c \
 	player.c \
+	point.c \
 
 OBJ = $(SRC:.c=.o)
 
