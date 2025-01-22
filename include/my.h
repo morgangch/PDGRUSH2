@@ -15,6 +15,7 @@
     #include "container.h"
     #include "float.h"
     #include "int.h"
+    #include "char.h"
     #include "iterator.h"
     #include "new.h"
     #include "object.h"

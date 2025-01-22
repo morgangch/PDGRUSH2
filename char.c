@@ -7,20 +7,10 @@
 
 #include "include/my.h"
 
-/*
-** EPITECH PROJECT, 2025
-** Paradigms Seminar
-** File description:
-** Evalueercice 02
-*/
-
-#include "include/my.h"
-
-typedef struct
-{
-    Class   base;
-    char     value;
-}   CharClass;
+typedef struct {
+    Class base;
+    char value;
+} CharClass;
 
 static void Char_ctor(CharClass *this, va_list *args)
 {
@@ -31,7 +21,7 @@ static void Char_ctor(CharClass *this, va_list *args)
 
 static void Char_dtor(CharClass *this)
 {
-    (void)this;
+    (void) this;
 }
 
 static char *Char_str(CharClass *this)
@@ -42,7 +32,7 @@ static char *Char_str(CharClass *this)
     if (!this)
         return NULL;
     size = snprintf(NULL, 0, "<Char (%c)>", this->value);
-    str = (char *)malloc(size + 1);
+    str = (char *) malloc(size + 1);
     if (!str)
         return NULL;
     snprintf(str, size + 1, "<Char (%c)>", this->value);
@@ -51,7 +41,7 @@ static char *Char_str(CharClass *this)
 
 static Object *Char_add(const CharClass *this, const CharClass *other)
 {
-    return new(Char, this->value + other->value);
+    return new (Char, this->value + other->value);
 }
 
 static Object *Char_sub(const CharClass *this, const CharClass *other)
@@ -85,13 +75,14 @@ static bool Char_lt(const CharClass *this, const CharClass *other)
 }
 
 static const CharClass _description = {
-    {   /* Class struct */
+    {
+        /* Class struct */
         .__size__ = sizeof(CharClass),
         .__name__ = "Char",
-        .__ctor__ = (ctor_t)&Char_ctor,
-        .__dtor__ = (dtor_t)&Char_dtor,
-        .__str__ = (to_string_t)&Char_str,
-        .__add__ = (binary_operator_t)&Char_add,
+        .__ctor__ = (ctor_t) &Char_ctor,
+        .__dtor__ = (dtor_t) &Char_dtor,
+        .__str__ = (to_string_t) &Char_str,
+        .__add__ = (binary_operator_t) &Char_add,
         .__sub__ = (binary_operator_t)&Char_sub,
         .__mul__ = (binary_operator_t)&Char_mul,
         .__div__ = (binary_operator_t)&Char_div,
@@ -102,4 +93,4 @@ static const CharClass _description = {
     .value = 0,
 };
 
-const Class   *Char = (const Class *)&_description;
+const Class *Char = (const Class *) &_description;

@@ -7,24 +7,6 @@
 
 #include "include/my.h"
 
-/*
-** EPITECH PROJECT, 2025
-** Rush2
-** File description:
-** Char
-*/
-
-#include "include/my.h"
-
-/*
-** EPITECH PROJECT, 2025
-** Paradigms Seminar
-** File description:
-** Evalueercice 02
-*/
-
-#include "include/my.h"
-
 typedef struct
 {
     Class   base;
@@ -50,11 +32,11 @@ static char *Float_str(FloatClass *this)
 
     if (!this)
         return NULL;
-    size = snprintf(NULL, 0, "<Float (%c)>", this->value);
+    size = snprintf(NULL, 0, "<Float (%f)>", this->value);
     str = (char *)malloc(size + 1);
     if (!str)
         return NULL;
-    snprintf(str, size + 1, "<Float (%c)>", this->value);
+    snprintf(str, size + 1, "<Float (%f)>", this->value);
     return str;
 }
 
