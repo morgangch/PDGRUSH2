@@ -22,11 +22,15 @@ Object *new(const Class *class, ...)
         class->__ctor__(obj, &ap);
         va_end(ap);
     }
+    obj = memcpy(obj, class, class->__size__);
     return (obj);
 }
 
 void delete(Object *ptr)
 {
-    if (ptr != NULL)
-        free(ptr);
+    Class *class = ptr;
+
+    if (class->__dtor__ != NULL)
+        class->__dtor__(ptr);
+    free(ptr);
 }
