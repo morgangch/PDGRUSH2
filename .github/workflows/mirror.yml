@@ -11,13 +11,8 @@ on:
 
 jobs:
 
-  correct_repo:
-    if: ${{ github.repository == 'morgangch/PDGRUSH2' }}
-    name: "Checks if the repository is not the destination repository"
-    runs-on: ubuntu-latest
-
   check_repo:
-    needs: [correct_repo]
+    if: ${{ github.repository == 'morgangch/PDGRUSH2' }}
     name: "Checks if the repository is clean and void of any unwanted files (temp files, binary files, etc.)"
     runs-on: ubuntu-latest
     steps:
