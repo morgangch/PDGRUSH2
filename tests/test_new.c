@@ -1,83 +1,97 @@
+/*
+** EPITECH PROJECT, 2025
+** PDGRUSH2
+** File description:
+** test_new
+*/
+
 #include <criterion/criterion.h>
 #include <criterion/redirect.h>
-#include <criterion/assert.h>
-#include <stdio.h>
-#include "my.h"
-#include "new.h"
+#include "../include/my.h"
 
-Test(new, valid_class)
+Test(new, test_new)
 {
-    Class class = {
-        .__size__ = sizeof(Class),
-        .__ctor__ = NULL,
-        .__dtor__ = NULL
-    };
-    Object *obj = new(&class);
+    Object  *array = new(Array, 10, Int, 0);
+    Object  *it = begin(array);
+    Object  *it_end = end(array);
 
-    cr_assert_not_null(obj, "Object creation failed");
-    cr_assert_eq(((Class *)obj)->__size__, sizeof(Class), "Object size mismatch");
-    free(obj);
+    cr_assert_not_null(array);
+    cr_assert_not_null(it);
+    cr_assert_not_null(it_end);
+    cr_assert_eq(len(array), 10);
+    setitem(array, 5, 12);
+    setitem(array, 6, 13);
+    delete(it);
+    delete(it_end);
+    delete(array);
 }
 
-// Test(new, null_class_size)
-// {
-//     Class class = {
-//         .__size__ = 0,
-//         .__ctor__ = NULL,
-//         .__dtor__ = NULL
-//     };
-
-//     cr_assert_raise(new(&class), "Error: size is NULL");
-// }
-
-// Test(new, malloc_failure)
-// {
-//     Class class = {
-//         .__size__ = sizeof(Class),
-//         .__ctor__ = NULL,
-//         .__dtor__ = NULL
-//     };
-
-//     // Simulate malloc failure
-//     cr_redirect_stderr();
-//     cr_assert_raise(new(&class), "Error: malloc failed");
-// }
-
-Test(new, valid_ctor)
+Test(new, test_newplayer)
 {
-    Class class = {
-        .__size__ = sizeof(Class),
-        .__ctor__ = NULL,
-        .__dtor__ = NULL
-    };
-    Object *obj = new(&class);
+    Object  *player = new(Player, "player");
 
-    cr_assert_not_null(obj, "Object creation failed");
-    cr_assert_eq(((Class *)obj)->__size__, sizeof(Class), "Object size mismatch");
-    free(obj);
+    cr_assert_not_null(player);
+    delete(player);
 }
 
-// Test(new, null_ctor)
-// {
-//     Class class = {
-//         .__size__ = sizeof(Class),
-//         .__ctor__ = NULL,
-//         .__dtor__ = NULL
-//     };
-
-//     cr_assert_raise(new(&class), "Error: ctor is NULL");
-// }
-
-Test(new, valid_dtor)
+Test(new, test_newarray)
 {
-    Class class = {
-        .__size__ = sizeof(Class),
-        .__ctor__ = NULL,
-        .__dtor__ = NULL
-    };
-    Object *obj = new(&class);
+    Object  *array = new(Array, 10, Int, 0);
+    Object  *it = begin(array);
+    Object  *it_end = end(array);
 
-    cr_assert_not_null(obj, "Object creation failed");
-    cr_assert_eq(((Class *)obj)->__size__, sizeof(Class), "Object size mismatch");
-    delete(obj);
+    cr_assert_not_null(array);
+    cr_assert_not_null(it);
+    cr_assert_not_null(it_end);
+    cr_assert_eq(len(array), 10);
+    setitem(array, 5, 12);
+    setitem(array, 6, 13);
+    delete(it);
+    delete(it_end);
+    delete(array);
+}
+
+Test(new, test_newint)
+{
+    Object  *integer = new(Int, 12);
+
+    cr_assert_not_null(integer);
+    cr_assert_str_eq(str(integer), "<Int (12)>");
+    delete(integer);
+}
+
+Test(new, test_newchar)
+{
+    Object  *character = new(Char, 'c');
+
+    cr_assert_not_null(character);
+    cr_assert_str_eq(str(character), "<Char (c)>");
+    delete(character);
+}
+
+Test(new, test_newfloat)
+{
+    Object  *floating = new(Float, 12.34);
+
+    cr_assert_not_null(floating);
+    cr_assert_str_eq(str(floating), "<Float (12.340000)>");
+    delete(floating);
+}
+
+Test(new, test_newpoint)
+{
+    Object  *point = new(Point, 12, 34);
+
+    cr_assert_not_null(point);
+    cr_assert_str_eq(str(point), "<Point (12, 34)>");
+    delete(point);
+}
+
+Test(new, test_newvertex)
+{
+    Object  *vertex = new(Vertex, 12, 34, 56);
+
+    cr_assert_not_null(vertex);
+    cr_assert_str_eq(str(vertex), "<Vertex (12, 34, 56)>");
+    delete(vertex);
 }

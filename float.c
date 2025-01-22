@@ -17,7 +17,7 @@ static void Float_ctor(FloatClass *this, va_list *args)
 {
     if (!args)
         return;
-    this->value = va_arg(*args, int);
+    this->value = (float)va_arg(*args, double);
 }
 
 static void Float_dtor(FloatClass *this)

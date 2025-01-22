@@ -26,7 +26,9 @@ TESTSRC = $(wildcard tests/*.c) \
 		point.c \
 		vertex.c \
 		int.c \
-		array.c
+		array.c \
+		char.c \
+		float.c \
 
 OBJ = $(SRC:.c=.o)
 TESTOBJ = $(TESTSRC:.c=.o)
@@ -40,7 +42,7 @@ clean:
 	$(RM) $(OBJ) $(TESTOBJ)
 
 fclean: clean
-	$(RM) $(name) $(test_name)
+	$(RM) $(name) $(test_name) *.gc*
 
 re: fclean all
 
