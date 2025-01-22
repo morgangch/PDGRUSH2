@@ -105,7 +105,7 @@ static const ListIteratorClass ListIteratorDescr = {
     },
     ._list = NULL, ._idx = 0};
 
-static const Class *ArrayIterator = (const Class *) &ListIteratorDescr;
+static const Class *ListIterator = (const Class *) &ListIteratorDescr;
 
 static void List_ctor(ListClass *this, va_list *args)
 {
