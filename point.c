@@ -16,7 +16,7 @@ typedef struct
 
 static void Point_ctor(PointClass *this, va_list *args)
 {
-    if (!this || !args)
+    if (!args)
         return;
     this->x = va_arg(*args, int);
     this->y = va_arg(*args, int);
@@ -24,7 +24,7 @@ static void Point_ctor(PointClass *this, va_list *args)
 
 static void Point_dtor(PointClass *this)
 {
-    /* Fill this function for exercice 02 */
+    (void)this;
 }
 
 static char *Point_str(PointClass *this)
