@@ -23,5 +23,6 @@
     #include "point.h"
     #include "vertex.h"
     #include "raise.h"
+    #include "list.h"
     
 #endif
