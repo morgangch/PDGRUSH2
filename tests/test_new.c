@@ -25,8 +25,6 @@ Test(new, test_new)
     cr_assert_eq(len(array), 10);
     setitem(array, 5, 12);
     setitem(array, 6, 13);
-    delete (it);
-    delete (it_end);
     delete (array);
 }
 
@@ -50,8 +48,6 @@ Test(new, test_newarray)
     cr_assert_eq(len(array), 10);
     setitem(array, 5, 12);
     setitem(array, 6, 13);
-    delete (it);
-    delete (it_end);
     delete (array);
 }
 
@@ -114,7 +110,7 @@ Test(new, test_ArrayIterator_eq)
     cr_assert_eq(eq(it, it3), 0);
     cr_assert_eq(eq(it_end, it3), 1);
 
-    delete (it);
+    delete (array);
 }
 
 Test(new, test_ArrayIterator_gt)
@@ -131,7 +127,7 @@ Test(new, test_ArrayIterator_gt)
     cr_assert_eq(gt(it, it3), 0);
     cr_assert_eq(gt(it_end, it3), 0);
 
-    delete (it);
+    delete (array);
 }
 
 Test(new, test_ArrayIterator_lt)
@@ -160,6 +156,7 @@ Test(new, test_ArrayIterator_incr)
     incr(it);
     incr(it_end);
     cr_assert_eq(eq(it, it_end), 0);
+    delete (array);
 }
 
 Test(new, test_ArrayIterator_getval)
@@ -170,6 +167,7 @@ Test(new, test_ArrayIterator_getval)
 
     incr(it);
     cr_assert_neq(getval(it), getval(it_prev));
+    delete (array);
 }
 
 Test(new, test_ArrayIterator_setval)
@@ -179,60 +177,6 @@ Test(new, test_ArrayIterator_setval)
 
     setval(it, 12);
     cr_assert_neq(begin(array), it);
-}
-
-Test(new, test_Array_getval_outofbond)
-{
-    Object *array = new (Array, 2, Int, 0);
-    Object *it_end = end(array);
-
-    int pipefd[2];
-    pipe(pipefd);
-    int pid = fork();
-
-    if (pid == 0) {
-        close(pipefd[0]);
-        dup2(pipefd[1], STDERR_FILENO);
-        close(pipefd[1]);
-        incr(it_end);
-        getval(it_end);
-        exit(0);
-    } else {
-        close(pipefd[1]);
-        char buffer[256] = {0};
-        read(pipefd[0], buffer, sizeof(buffer) - 1);
-        close(pipefd[0]);
-        waitpid(pid, NULL, 0);
-        cr_assert_str_eq(buffer, "array.c: 55: Out of range\n",
-            "Le message attendu dans stderr est incorrect !");
-    }
-    delete (array);
-}
-
-Test(new, test_Array_setval_outofbond)
-{
-    Object *array = new (Array, 2, Int, 0);
-    Object *it_end = end(array);
-
-    int pipefd[2];
-    pipe(pipefd);
-    int pid = fork();
-
-    if (pid == 0) {
-        close(pipefd[0]);
-        dup2(pipefd[1], STDERR_FILENO);
-        close(pipefd[1]);
-        setval(it_end, 15);
-        exit(0);
-    } else {
-        close(pipefd[1]);
-        char buffer[256] = {0};
-        read(pipefd[0], buffer, sizeof(buffer) - 1);
-        close(pipefd[0]);
-        waitpid(pid, NULL, 0);
-        cr_assert_str_eq(buffer, "array.c: 69: Index out of bounds\n",
-            "Le message attendu dans stderr est incorrect !");
-    }
     delete (array);
 }
 
@@ -300,6 +244,7 @@ Test(new, test_intFull)
     delete (integer);
     integer = new (Int, 1);
     cr_assert_not_null(integer);
+    delete (integer);
 }
 
 Test(new, test_pointEmpty)
@@ -334,4 +279,142 @@ Test(new, test_vertexFull)
     cr_assert_not_null(vertex);
     cr_assert_str_eq(str(vertex), "<Vertex (1, 2, 3)>");
     delete (vertex);
+}
+
+Test(new, test_Array_getval_outofbond)
+{
+    Object *array = new (Array, 2, Int, 0);
+    Object *it_end = end(array);
+
+    int pipefd[2];
+    pipe(pipefd);
+    int pid = fork();
+
+    if (pid == 0) {
+        close(pipefd[0]);
+        dup2(pipefd[1], STDERR_FILENO);
+        close(pipefd[1]);
+        incr(it_end);
+        getval(it_end);
+        exit(0);
+    } else {
+        close(pipefd[1]);
+        char buffer[256] = {0};
+        read(pipefd[0], buffer, sizeof(buffer) - 1);
+        close(pipefd[0]);
+        waitpid(pid, NULL, 0);
+        cr_assert_str_eq(buffer, "array.c: 55: Out of range\n",
+            "Le message attendu dans stderr est incorrect !");
+    }
+    delete (array);
+}
+
+Test(new, test_Array_setval_outofbond)
+{
+    Object *array = new (Array, 2, Int, 0);
+    Object *it_end = end(array);
+
+    int pipefd[2];
+    pipe(pipefd);
+    int pid = fork();
+
+    if (pid == 0) {
+        close(pipefd[0]);
+        dup2(pipefd[1], STDERR_FILENO);
+        close(pipefd[1]);
+        setval(it_end, 15);
+        exit(0);
+    } else {
+        close(pipefd[1]);
+        char buffer[256] = {0};
+        read(pipefd[0], buffer, sizeof(buffer) - 1);
+        close(pipefd[0]);
+        waitpid(pid, NULL, 0);
+        cr_assert_str_eq(buffer, "array.c: 69: Index out of bounds\n",
+            "Le message attendu dans stderr est incorrect !");
+    }
+    delete (array);
+}
+
+Test(new, test_List_popback)
+{
+    Object *list = new (List, new (Char, 'a'), NULL);
+
+    l_pushfront(list, new (Char, 'b'));
+    l_pushfront(list, new (Char, 'c'));
+    l_pushback(list, new (Char, 'd'));
+    l_pushback(list, new (Int, 3));
+    l_popback(list);
+    cr_assert_eq(len(list), 4);
+    delete (list);
+}
+
+Test(new, test_List_popfront)
+{
+    Object *list = new (List, new (Char, 'a'), NULL);
+
+    l_pushfront(list, new (Char, 'b'));
+    l_pushfront(list, new (Char, 'c'));
+    l_pushback(list, new (Char, 'd'));
+    l_pushback(list, new (Int, 3));
+    l_popfront(list);
+    cr_assert_eq(len(list), 5);
+}
+
+Test(new, test_List_erase)
+{
+    Object *list = new (List, new (Char, 'a'), NULL);
+
+    l_pushfront(list, new (Char, 'b'));
+    l_pushback(list, new (Char, 'd'));
+    l_erase(list, 0);
+    cr_assert_eq(len(list), 3);
+}
+
+Test(new, test_List_getitem_outofbond)
+{
+    Object *list = new (List, new (Char, 'a'), NULL);
+
+    int pipefd[2];
+    pipe(pipefd);
+    int pid = fork();
+
+    if (pid == 0) {
+        close(pipefd[0]);
+        dup2(pipefd[1], STDERR_FILENO);
+        close(pipefd[1]);
+        l_getitem(list, 1);
+        exit(0);
+    } else {
+        close(pipefd[1]);
+        char buffer[256] = {0};
+        read(pipefd[0], buffer, sizeof(buffer) - 1);
+        close(pipefd[0]);
+        waitpid(pid, NULL, 0);
+        cr_assert_str_eq(buffer, "list.c: 67: Index out of bounds\n",
+            "Le message attendu dans stderr est incorrect !");
+    }
+    delete (list);
+}
+
+Test(new, test_List_getitem)
+{
+    Object *list = new (List, new (Char, 'a'), NULL);
+
+    l_pushfront(list, new (Char, 'b'));
+    l_pushfront(list, new (Char, 'c'));
+    l_pushback(list, new (Char, 'd'));
+    l_pushback(list, new (Int, 3));
+    cr_assert_str_eq(str(l_getitem(list, 1)), "<Char (b)>");
+    delete (list);
+}
+
+Test(new, test_List_eq)
+{
+    Object *list = new (List, new (Char, 'a'), NULL);
+    Object *list2 = new (List, new (Char, 'a'), NULL);
+
+    cr_assert_eq(eq(list, list2), 1);
+    delete (list);
+    delete (list2);
 }

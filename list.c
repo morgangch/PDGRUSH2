@@ -21,15 +21,16 @@ static void List_ctor(ListClass *this, va_list *args)
         return;
     data = va_arg(*args, Object *);
     this->data = data;
+    this->next = NULL;
+    va_end(*args);
 }
 
 static void List_dtor(ListClass *this)
 {
-    delete(this->data);
+    if (this->data)
+        delete(this->data);
     if (this->next)
-        delete(this->next);
-    free(this->next);
-    free(this);
+        List_dtor(this->next);
 }
 
 static bool List_eq(ListClass *this, ListClass *other)
@@ -154,8 +155,12 @@ static void List_popback(ListClass *this)
 
 static void List_popfront(ListClass *this)
 {
-    delete(this->data);
-    this = this->next;
+    if (this->data)
+        delete(this->data);
+    if (this->next)
+        this = this->next;
+    else
+        this = NULL;
 }
 
 static void List_erase(ListClass *this, ...)
@@ -165,13 +170,18 @@ static void List_erase(ListClass *this, ...)
 
     va_start(args, this);
     index = va_arg(args, size_t);
+    va_end(args);
     if (index == 0) {
+        printf("popfront\n");
         List_popfront(this);
-    } else if (this->next)
+        printf("this->data: %s\n", str(this->data));
+        printf("this->next->data: %s\n", str(this->next->data));
+        return;
+    }
+    if (this->next)
         List_erase(this->next, index - 1);
     else
         raise("Index out of bounds");
-    va_end(args);
 }
 
 static const ListClass _description = {

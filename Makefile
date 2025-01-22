@@ -30,6 +30,7 @@ TESTSRC = $(wildcard tests/*.c) \
 		array.c \
 		char.c \
 		float.c \
+		list.c \
 
 OBJ = $(SRC:.c=.o)
 TESTOBJ = $(TESTSRC:.c=.o)
