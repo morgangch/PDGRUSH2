@@ -17,6 +17,8 @@ SRC = main_test/main.c \
 	vertex.c \
 	int.c \
 	array.c \
+	char.c \
+	float.c \
 
 TESTSRC = $(wildcard tests/*.c) \
 		new.c \

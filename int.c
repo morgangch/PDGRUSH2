@@ -6,23 +6,6 @@
 */
 
 #include "include/my.h"
-/*
-** EPITECH PROJECT, 2025
-** Rush2
-** File description:
-** Int
-*/
-
-#include "include/my.h"
-
-/*
-** EPITECH PROJECT, 2025
-** Paradigms Seminar
-** File description:
-** Evalueercice 02
-*/
-
-#include "include/my.h"
 
 typedef struct
 {
