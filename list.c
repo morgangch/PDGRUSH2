@@ -7,18 +7,36 @@
 
 #include "include/my.h"
 
+typedef struct ListNode {
+    Object *data;
+    struct ListNode *next;
+} ListNode;
+
 typedef struct {
     Container base;
     Class *_type;
     size_t _size;
-    Object **_tab;
+    ListNode *_head;
 } ListClass;
 
 typedef struct {
     Iterator base;
     ListClass *_list;
-    size_t _idx;
+    ListNode *_current;
 } ListIteratorClass;
+
+// typedef struct {
+//     Container base;
+//     Class *_type;
+//     size_t _size;
+//     Object **_tab;
+// } ListClass;
+
+// typedef struct {
+//     Iterator base;
+//     ListClass *_list;
+//     size_t _idx;
+// } ListIteratorClass;
 
 static void ListIterator_ctor(ListIteratorClass *this, va_list *args)
 {
