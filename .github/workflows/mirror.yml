@@ -19,7 +19,7 @@ jobs:
         run: |
           UNWANTED_FILES=$(find . -type f -not -path "./git/*" -wholename "*tmp/*" -or -name "*~" -or -name "*.o" -or -name "*.so" -or -name "*.gcno" -or -name "*.gcda" -or -name "*#" -or -name "#*" -or -name "*.gcov")
           for FILES in $UNWANTED_FILES; do
-            echo "::error file=${{FILES#./}},title=Unwanted file detected::${{FILES#./}}"
+            echo "::error file=${FILES#./},title=Unwanted file detected::${FILES#./}"
           done
           if [[ -n $UNWANTED_FILES ]]
           then
@@ -27,7 +27,6 @@ jobs:
           else
             echo No unwanted files detected
           fi
-
   check_program_compilation:
     needs: [check_repo]
     name: "Checks if make compil and test all binary listed in the ARGUMENTS variable"
