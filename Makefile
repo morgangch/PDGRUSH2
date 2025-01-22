@@ -52,4 +52,6 @@ tests_run:
 	./$(test_name)
 	gcovr --exclude tests/
 
+tests_re: fclean tests_run
+
 .PHONY: all clean fclean re tests_run
