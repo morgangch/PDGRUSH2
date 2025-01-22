@@ -5,7 +5,6 @@
 ** Exercice 02
 */
 
-#include <stdio.h>
 #include "include/my.h"
 
 typedef struct
