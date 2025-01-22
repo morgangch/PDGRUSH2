@@ -63,19 +63,12 @@ static void ArrayIterator_setval(ArrayIteratorClass *this, ...)
     ArrayClass *array;
     size_t index;
 
-    va_start(args, this);
     array = (ArrayClass *) this->_array;
     index = this->_idx;
-
-    if (index >= array->_size) {
-        va_end(args);
+    if (index >= array->_size)
         raise("Index out of bounds");
-    }
+    va_start(args, this);
     new_obj = va_new(array->_type, &args);
-    if (!new_obj) {
-        va_end(args);
-        raise("Out of memory");
-    }
     delete (array->_tab[index]);
     array->_tab[index] = new_obj;
     va_end(args);
