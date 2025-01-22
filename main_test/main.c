@@ -9,5 +9,8 @@
 
 int main(void)
 {
+    Object  *player = new(player);
+
+    delete(player);
     return (0);
 }

@@ -9,9 +9,9 @@
 
 Object *new(const Class *class, ...)
 {
-    Object *obj = malloc (class->__size__);
+    Object *obj = malloc (sizeof(Object));
 
-    if (obj == NULL)
+    if (!obj)
         raise("Out of memory");
     return (obj);
 }
