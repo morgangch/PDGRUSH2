@@ -19,7 +19,6 @@ SRC = main_test/ex06.c \
 	array.c \
 	char.c \
 	float.c \
-	list.c \
 
 TESTSRC = $(wildcard tests/*.c) \
 		new.c \
@@ -30,7 +29,6 @@ TESTSRC = $(wildcard tests/*.c) \
 		array.c \
 		char.c \
 		float.c \
-		list.c \
 
 OBJ = $(SRC:.c=.o)
 TESTOBJ = $(TESTSRC:.c=.o)
