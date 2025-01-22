@@ -116,8 +116,6 @@ static void Array_ctor(ArrayClass *this, va_list *args)
         va_copy(copy, *args);
         this->_tab[i] = va_new(type, &copy);
         va_end(copy);
-        if (!this->_tab[i])
-            raise("Out of memory");
     }
 }
 
@@ -135,12 +133,12 @@ static size_t Array_len(ArrayClass *this)
 
 static Iterator *Array_begin(ArrayClass *this)
 {
-    return (new (ArrayIterator, this, 0));
+    return (new(ArrayIterator, this, 0));
 }
 
 static Iterator *Array_end(ArrayClass *this)
 {
-    return (new (ArrayIterator, this, this->_size));
+    return (new(ArrayIterator, this, this->_size));
 }
 
 static Object *Array_getitem(ArrayClass *this, ...)
@@ -170,13 +168,9 @@ static void Array_setitem(ArrayClass *this, ...)
         raise("Index out of bounds");
     }
     new_obj = va_new(this->_type, &args);
-    if (!new_obj) {
-        va_end(args);
-        raise("Out of memory");
-    }
+    va_end(args);
     delete (this->_tab[index]);
     this->_tab[index] = new_obj;
-    va_end(args);
 }
 
 static const ArrayClass _descr = {
