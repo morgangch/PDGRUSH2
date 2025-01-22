@@ -6,7 +6,7 @@
 */
 
 #include <stdio.h>
-#include "point.h"
+#include "include/point.h"
 
 typedef struct
 {
