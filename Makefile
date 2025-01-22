@@ -15,6 +15,8 @@ SRC = main_test/main.c \
 	player.c \
 	point.c \
 	vertex.c \
+	int.c \
+	array.c \
 
 TESTSRC = $(wildcard tests/*.c) \
 		new.c \

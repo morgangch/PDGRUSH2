@@ -5,11 +5,7 @@
 ** Exercice 05
 */
 
-#include <stdlib.h>
-#include <stdarg.h>
-#include "raise.h"
-#include "array.h"
-#include "new.h"
+#include "include/my.h"
 
 typedef struct
 {
@@ -58,9 +54,29 @@ static Object   *ArrayIterator_getval(ArrayIteratorClass *this)
     return (this->_array->_tab[this->_idx]);
 }
 
-static void     ArrayIterator_setval(ArrayIteratorClass *this, ...)
+static void ArrayIterator_setval(ArrayIteratorClass *this, ...)
 {
-    /* Fill this function for exercice 05 */
+    va_list args;
+    Object *new_obj;
+    ArrayClass *array;
+    size_t index;
+
+    va_start(args, this);
+    array = (ArrayClass *)this->_array;
+    index = this->_idx;
+
+    if (index >= array->_size) {
+        va_end(args);
+        raise("Index out of bounds");
+    }
+    new_obj = va_new(array->_type, &args);
+    if (!new_obj) {
+        va_end(args);
+        raise("Out of memory");
+    }
+    delete(array->_tab[index]);
+    array->_tab[index] = new_obj;
+    va_end(args);
 }
 
 static const ArrayIteratorClass   ArrayIteratorDescr = {
@@ -89,9 +105,25 @@ static const ArrayIteratorClass   ArrayIteratorDescr = {
 
 static const Class    *ArrayIterator = (const Class *)&ArrayIteratorDescr;
 
-static void     Array_ctor(ArrayClass *this, va_list *args)
+static void Array_ctor(ArrayClass *this, va_list *args)
 {
-    /* Fill this function for exercice 05 */
+    size_t size = va_arg(*args, size_t);
+    Class *type = va_arg(*args, Class *);
+    va_list copy;
+
+    this->_size = size;
+    this->_type = type;
+    this->_tab = malloc(size * sizeof(Object *));
+    if (!this->_tab)
+        raise("Out of memory");
+
+    for (size_t i = 0; i < size; i++) {
+        va_copy(copy, *args);
+        this->_tab[i] = va_new(type, &copy);
+        va_end(copy);
+        if (!this->_tab[i])
+            raise("Out of memory");
+    }
 }
 
 static void     Array_dtor(ArrayClass *this)
@@ -116,14 +148,40 @@ static Iterator *Array_end(ArrayClass *this)
     return (new(ArrayIterator, this, this->_size));
 }
 
-static Object   *Array_getitem(ArrayClass *this, ...)
+static Object *Array_getitem(ArrayClass *this, ...)
 {
-    /* Fill this function for exercice 05 */
+    va_list args;
+    size_t index;
+
+    va_start(args, this);
+    index = va_arg(args, size_t);
+    va_end(args);
+
+    if (index >= this->_size)
+        raise("Index out of bounds");
+    return this->_tab[index];
 }
 
-static void     Array_setitem(ArrayClass *this, ...)
+static void Array_setitem(ArrayClass *this, ...)
 {
-    /* Fill this function for exercice 05 */
+    va_list args;
+    size_t index;
+    Object *new_obj;
+
+    va_start(args, this);
+    index = va_arg(args, size_t);
+    if (index >= this->_size) {
+        va_end(args);
+        raise("Index out of bounds");
+    }
+    new_obj = va_new(this->_type, &args);
+    if (!new_obj) {
+        va_end(args);
+        raise("Out of memory");
+    }
+    delete(this->_tab[index]);
+    this->_tab[index] = new_obj;
+    va_end(args);
 }
 
 static const ArrayClass   _descr = {

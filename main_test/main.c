@@ -9,17 +9,20 @@
 
 int main(void)
 {
-    Object  *p1 = new(Point, 12, 13);
-    Object  *p2 = new(Point, 2, 2);
+    Object  *array = new(Array, 10, Int, 0);
+    Object  *it = begin(array);
+    Object  *it_end = end(array);
 
-    printf("%s + %s = %s\n", str(p1), str(p2), str(addition(p1, p2)));
-    printf("%s - %s = %s\n", str(p1), str(p2), str(subtraction(p1, p2)));
-
-    Object  *v1 = new(Vertex, 1, 2, 3);
-    Object  *v2 = new(Vertex, 4, 5, 6);
-
-    printf("%s + %s = %s\n", str(v1), str(v2), str(addition(v1, v2)));
-    printf("%s - %s = %s\n", str(v1), str(v2), str(subtraction(v1, v2)));
-
+    printf("array size: %zu\n", len(array));
+    setitem(array, 5, 12);
+    setitem(array, 6, 13);
+    while (lt(it, it_end))
+    {
+        printf("%s\n", str(getval(it)));
+        incr(it);
+    }
+    delete(it);
+    delete(it_end);
+    delete(array);
     return (0);
 }
