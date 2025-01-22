@@ -33,7 +33,7 @@ jobs:
       - name: Run coding style checker
         run: |
           docker pull ghcr.io/epitech/coding-style-checker:latest
-          docker run --rm             --security-opt "label:disable"             -v ${ env.DELIVERY_DIR }:/mnt/delivery             -v ${ env.REPORTS_DIR }:/mnt/reports             ghcr.io/epitech/coding-style-checker:latest             /mnt/delivery /mnt/reports
+          docker run --rm --security-opt "label:disable" -v ${ env.DELIVERY_DIR }:/mnt/delivery -v ${ env.REPORTS_DIR }:/mnt/reports ghcr.io/epitech/coding-style-checker:latest /mnt/delivery /mnt/reports
 
       # Display coding style errors
       - name: Analyze coding style reports
