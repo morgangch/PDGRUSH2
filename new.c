@@ -17,12 +17,12 @@ Object *new(const Class *class, ...)
     obj = malloc(class->__size__);
     if (obj == NULL)
         raise("Error: malloc failed");
+    obj = memcpy(obj, class, class->__size__);
     if (class->__ctor__ != NULL) {
         va_start(ap, class);
         class->__ctor__(obj, &ap);
         va_end(ap);
     }
-    obj = memcpy(obj, class, class->__size__);
     return (obj);
 }
 
