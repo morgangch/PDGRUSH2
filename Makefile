@@ -10,6 +10,7 @@ name = execute
 CFLAGS = -Wall -Wextra -std=gnu17
 
 SRC = main_test/main.c \
+	new.c \
 
 OBJ = $(SRC:.c=.o)
 
