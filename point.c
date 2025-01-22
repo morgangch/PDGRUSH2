@@ -30,9 +30,15 @@ static void Point_dtor(PointClass *this)
 static char *Point_str(PointClass *this)
 {
     char *str;
+    int size;
+
     if (!this)
         return NULL;
-    asprintf(&str, "<Point (%d, %d)>", this->x, this->y);
+    size = snprintf(NULL, 0, "<Point (%d, %d)>", this->x, this->y);
+    str = (char *)malloc(size + 1);
+    if (!str)
+        return NULL;
+    snprintf(str, size + 1, "<Point (%d, %d)>", this->x, this->y);
     return str;
 }
 

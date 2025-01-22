@@ -30,9 +30,15 @@ static void Vertex_dtor(VertexClass *this)
 static char *Vertex_str(VertexClass *this)
 {
     char *str;
+    int size;
+
     if (!this)
         return NULL;
-    asprintf(&str, "<Vertex (%d, %d, %d)>", this->x, this->d1, this->d2);
+    size = snprintf(NULL, 0, "<Vertex (%d, %d, %d)>", this->x, this->d1, this->d2);
+    str = (char *)malloc(size + 1);
+    if (!str)
+        return NULL;
+    snprintf(str, size + 1, "<Vertex (%d, %d, %d)>", this->x, this->d1, this->d2);
     return str;
 }
 
