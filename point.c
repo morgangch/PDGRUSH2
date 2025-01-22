@@ -6,7 +6,7 @@
 */
 
 #include <stdio.h>
-#include "point.h"
+#include "include/point.h"
 
 typedef struct
 {
@@ -16,7 +16,10 @@ typedef struct
 
 static void Point_ctor(PointClass *this, va_list *args)
 {
-    /* Fill this function for exercice 02 */
+    if (!this || !args)
+        return;
+    this->x = va_arg(*args, int);
+    this->y = va_arg(*args, int);
 }
 
 static void Point_dtor(PointClass *this)
@@ -24,7 +27,14 @@ static void Point_dtor(PointClass *this)
     /* Fill this function for exercice 02 */
 }
 
-// Create additional functions here
+static char *Point_str(PointClass *this)
+{
+    char *str;
+    if (!this)
+        return NULL;
+    asprintf(&str, "<Point (%d, %d)>", this->x, this->y);
+    return str;
+}
 
 static const PointClass _description = {
     {   /* Class struct */
@@ -32,7 +42,7 @@ static const PointClass _description = {
         .__name__ = "Point",
         .__ctor__ = (ctor_t)&Point_ctor,
         .__dtor__ = (dtor_t)&Point_dtor,
-        .__str__ = NULL,    /* Implement this method for exercice 02 */
+        .__str__ = (to_string_t)&Point_str,
         .__add__ = NULL,    /* Implement this method for exercice 03 */
         .__sub__ = NULL,    /* Implement this method for exercice 03 */
         .__mul__ = NULL,

@@ -13,6 +13,7 @@ CFLAGS = -Wall -Wextra -std=gnu17 -Iinclude
 SRC = main_test/main.c \
 	new.c \
 	player.c \
+	point.c \
 
 TESTSRC = $(wildcard tests/*.c) \
 		new.c \

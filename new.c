@@ -17,6 +17,7 @@ Object *new(const Class *class, ...)
     obj = malloc(class->__size__);
     if (obj == NULL)
         raise("Error: malloc failed");
+    obj = memcpy(obj, class, class->__size__);
     if (class->__ctor__ != NULL) {
         va_start(ap, class);
         class->__ctor__(obj, &ap);
@@ -27,6 +28,9 @@ Object *new(const Class *class, ...)
 
 void delete(Object *ptr)
 {
-    if (ptr != NULL)
-        free(ptr);
+    Class *class = ptr;
+
+    if (class->__dtor__ != NULL)
+        class->__dtor__(ptr);
+    free(ptr);
 }
