@@ -10,7 +10,7 @@ test_name = unit_tests
 
 CFLAGS = -Wall -Wextra -std=gnu17 -Iinclude
 
-SRC = main_test/main.c \
+SRC = main_test/ex06.c \
 	new.c \
 	player.c \
 	point.c \
@@ -19,6 +19,7 @@ SRC = main_test/main.c \
 	array.c \
 	char.c \
 	float.c \
+	list.c \
 
 TESTSRC = $(wildcard tests/*.c) \
 		new.c \
