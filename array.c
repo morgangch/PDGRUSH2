@@ -96,7 +96,9 @@ static const ArrayIteratorClass ArrayIteratorDescr = {
         .__getval__ = (getval_t)&ArrayIterator_getval,
         .__setval__ = (setval_t)&ArrayIterator_setval,
     },
-    ._array = NULL, ._idx = 0};
+    ._array = NULL,
+    ._idx = 0
+};
 
 static const Class *ArrayIterator = (const Class *) &ArrayIteratorDescr;
 
@@ -197,6 +199,9 @@ static const ArrayClass _descr = {
         .__getitem__ = (getitem_t) &Array_getitem,
         .__setitem__ = (setitem_t) &Array_setitem,
     },
-    ._type = NULL, ._size = 0, ._tab = NULL};
+    ._type = NULL,
+    ._size = 0,
+    ._tab = NULL
+};
 
 const Class *Array = (const Class *) &_descr;
