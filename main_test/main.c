@@ -9,7 +9,7 @@
 
 int main(void)
 {
-    Object  *player = new(player);
+    Object *player = new(Player);
 
     delete(player);
     return (0);
