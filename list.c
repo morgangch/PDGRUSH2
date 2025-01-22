@@ -142,12 +142,12 @@ static size_t List_len(ListClass *this)
 
 static Iterator *List_begin(ListClass *this)
 {
-    return (new (ArrayIterator, this, 0));
+    return (new (ListIterator, this, 0));
 }
 
 static Iterator *List_end(ListClass *this)
 {
-    return (new (ArrayIterator, this, this->_size));
+    return (new (ListIterator, this, this->_size));
 }
 
 static Object *List_getitem(ListClass *this, ...)
