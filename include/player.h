@@ -9,4 +9,4 @@
 
 # include "object.h"
 
-extern const Class  *Player;
+extern const Class *Player;
