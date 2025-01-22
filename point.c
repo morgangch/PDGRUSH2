@@ -6,7 +6,7 @@
 */
 
 #include <stdio.h>
-#include "include/point.h"
+#include "include/my.h"
 
 typedef struct
 {
@@ -42,6 +42,16 @@ static char *Point_str(PointClass *this)
     return str;
 }
 
+static Object *Point_add(const PointClass *this, const PointClass *other)
+{
+    return new(Point, this->x + other->x, this->y + other->y);
+}
+
+static Object *Point_sub(const PointClass *this, const PointClass *other)
+{
+    return new(Point, this->x - other->x, this->y - other->y);
+}
+
 static const PointClass _description = {
     {   /* Class struct */
         .__size__ = sizeof(PointClass),
@@ -49,8 +59,8 @@ static const PointClass _description = {
         .__ctor__ = (ctor_t)&Point_ctor,
         .__dtor__ = (dtor_t)&Point_dtor,
         .__str__ = (to_string_t)&Point_str,
-        .__add__ = NULL,    /* Implement this method for exercice 03 */
-        .__sub__ = NULL,    /* Implement this method for exercice 03 */
+        .__add__ = (binary_operator_t)&Point_add,
+        .__sub__ = (binary_operator_t)&Point_sub,
         .__mul__ = NULL,
         .__div__ = NULL,
         .__eq__ = NULL,

@@ -27,6 +27,16 @@ static void Vertex_dtor(VertexClass *this)
     (void)this;
 }
 
+static Object *Vertex_add(const VertexClass *this, const VertexClass *other)
+{
+    return new(Vertex, this->x + other->x, this->d1 + other->d1, this->d2 + other->d2);
+}
+
+static Object *Vertex_sub(const VertexClass *this, const VertexClass *other)
+{
+    return new(Vertex, this->x - other->x, this->d1 - other->d1, this->d2 - other->d2);
+}
+
 static char *Vertex_str(VertexClass *this)
 {
     char *str;
@@ -49,8 +59,8 @@ static const VertexClass _description = {
         .__ctor__ = (ctor_t)&Vertex_ctor,
         .__dtor__ = (dtor_t)&Vertex_dtor,
         .__str__ = (to_string_t)&Vertex_str,
-        .__add__ = NULL,
-        .__sub__ = NULL,
+        .__add__ = (binary_operator_t)&Vertex_add,
+        .__sub__ = (binary_operator_t)&Vertex_sub,
         .__mul__ = NULL,
         .__div__ = NULL,
         .__eq__ = NULL,
