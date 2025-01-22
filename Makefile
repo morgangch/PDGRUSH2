@@ -6,14 +6,20 @@
 ##
 
 name = execute
+test_name = unit_tests
 
-CFLAGS = -Wall -Wextra -std=gnu17
+CFLAGS = -Wall -Wextra -std=gnu17 -Iinclude
 
 SRC = main_test/main.c \
 	new.c \
 	player.c \
 
+TESTSRC = $(wildcard tests/*.c) \
+		new.c \
+		player.c \
+
 OBJ = $(SRC:.c=.o)
+TESTOBJ = $(TESTSRC:.c=.o)
 
 all: $(name)
 
@@ -21,9 +27,16 @@ $(name): $(OBJ)
 	$(CC) -o $(name) $(OBJ)
 
 clean:
-	$(RM) $(OBJ)
+	$(RM) $(OBJ) $(TESTOBJ)
 
 fclean: clean
-	$(RM) $(name)
+	$(RM) $(name) $(test_name)
 
 re: fclean all
+
+tests_run: $(TESTOBJ)
+	$(CC) -o $(test_name) $(TESTOBJ) --coverage -lcriterion $(CFLAGS)
+	./$(test_name)
+	gcovr --exclude tests/
+
+.PHONY: all clean fclean re tests_run
