@@ -21,6 +21,10 @@ SRC = main_test/main.c \
 TESTSRC = $(wildcard tests/*.c) \
 		new.c \
 		player.c \
+		point.c \
+		vertex.c \
+		int.c \
+		array.c
 
 OBJ = $(SRC:.c=.o)
 TESTOBJ = $(TESTSRC:.c=.o)
