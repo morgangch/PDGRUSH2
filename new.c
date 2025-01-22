@@ -5,7 +5,7 @@
 ** new.c -> ex01
 */
 
-#include "../include/my.h"
+#include "include/my.h"
 
 Object *new(const Class *class, ...)
 {
