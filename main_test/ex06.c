@@ -15,12 +15,21 @@ int main(void)
     Object *it_end = end(list);
 
     l_pushfront(list, new(Char, 'b'));
+    printf("list size: %zu\n", len(list));
     l_pushfront(list, new(Char, 'c'));
+    printf("list size: %zu\n", len(list));
     l_pushback(list, new(Char, 'd'));
+    printf("list size: %zu\n", len(list));
     l_pushback(list, new(Int, 3));
     printf("list size: %zu\n", len(list));
-    for(int i = 0; i < l_len(list); i++)
-        printf("%s\n", str(l_getitem(list, i)));
-    str(list);
+    for(int i = 0; i < l_len(list); i++) {
+        char *tmp = str(l_getitem(list, i));
+        printf("%s\n", tmp);
+        free(tmp);
+    }
+    l_popback(list);
+    printf("list size: %zu\n", len(list));
+    printf("BEFORE\n");
+    delete(list);
     return 0;
 }
