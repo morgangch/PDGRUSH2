@@ -37,6 +37,9 @@ Object *va_new(const Class *class, va_list *ap)
 
 void delete(Object *ptr)
 {
+    if (ptr == NULL)
+        return;
+
     Class *class = ptr;
 
     if (class->__dtor__ != NULL)
